@@ -1,6 +1,6 @@
 export default function Newsletter() {
   return (
-    <div className="bg-gray-100">
+    <div className="max-w-7xl mx-auto">
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-prose text-center">
           <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">

@@ -1,6 +1,6 @@
 export default function FAQ() {
   return (
-    <section className="bg-white">
+    <section className="max-w-7xl mx-auto">
       <div className="container px-6 py-12 mx-auto">
         <h1 className="text-2xl font-semibold text-center text-gray-800 lg:text-3xl">
           Have any Questions?
