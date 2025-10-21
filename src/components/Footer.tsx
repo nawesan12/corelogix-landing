@@ -59,7 +59,7 @@ export default function Footer() {
 
               <div>
                 <h2 className="text-2xl font-medium text-gray-900">
-                  Request a Demo
+                  Agendar una demo
                 </h2>
 
                 <p className="mt-4 max-w-lg text-gray-500">
@@ -307,7 +307,8 @@ export default function Footer() {
               </ul>
 
               <p className="mt-8 text-xs text-gray-500">
-                &copy; 2022. Company Name. All rights reserved.
+                &copy; {new Date().getFullYear()}. Grow ERP. Todos los derechos
+                reservados.
               </p>
             </div>
           </div>
