@@ -151,7 +151,7 @@ function parseFrontmatterValue(rawValue: string): unknown {
 
 function stripQuotes(value: string): string {
   if (
-    (value.startsWith("\"") && value.endsWith("\"")) ||
+    (value.startsWith('"') && value.endsWith('"')) ||
     (value.startsWith("'") && value.endsWith("'"))
   ) {
     return value.slice(1, -1);
@@ -260,12 +260,7 @@ function renderMarkdown(content: string): ReactElement[] {
     }
 
     if (/^---\s*$/.test(line.trim())) {
-      elements.push(
-        <hr
-          key={nextKey()}
-          className="my-12 border-border/80"
-        />,
-      );
+      elements.push(<hr key={nextKey()} className="my-12 border-border/80" />);
       index += 1;
       continue;
     }
@@ -350,7 +345,7 @@ function renderMarkdown(content: string): ReactElement[] {
         index += 1;
       }
 
-      const ListTag = (isOrdered ? "ol" : "ul") as const;
+      const ListTag = isOrdered ? "ol" : "ul";
 
       elements.push(
         <ListTag
@@ -384,10 +379,7 @@ function renderMarkdown(content: string): ReactElement[] {
       index += 1;
     }
 
-    const paragraphText = paragraphLines
-      .join(" ")
-      .replace(/\s+/g, " ")
-      .trim();
+    const paragraphText = paragraphLines.join(" ").replace(/\s+/g, " ").trim();
 
     if (paragraphText) {
       elements.push(
@@ -431,7 +423,10 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
     if (boldMatch) {
       pushText(remaining.slice(0, boldMatch.index ?? 0));
       nodes.push(
-        <strong key={`${keyPrefix}-bold-${index}`} className="font-semibold text-foreground">
+        <strong
+          key={`${keyPrefix}-bold-${index}`}
+          className="font-semibold text-foreground"
+        >
           {renderInline(boldMatch[1], `${keyPrefix}-bold-${index}`)}
         </strong>,
       );
@@ -444,7 +439,10 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
     if (doubleUnderscoreMatch) {
       pushText(remaining.slice(0, doubleUnderscoreMatch.index ?? 0));
       nodes.push(
-        <strong key={`${keyPrefix}-bold-${index}`} className="font-semibold text-foreground">
+        <strong
+          key={`${keyPrefix}-bold-${index}`}
+          className="font-semibold text-foreground"
+        >
           {renderInline(doubleUnderscoreMatch[1], `${keyPrefix}-bold-${index}`)}
         </strong>,
       );
@@ -463,7 +461,9 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
           {renderInline(italicMatch[1], `${keyPrefix}-italic-${index}`)}
         </em>,
       );
-      remaining = remaining.slice((italicMatch.index ?? 0) + italicMatch[0].length);
+      remaining = remaining.slice(
+        (italicMatch.index ?? 0) + italicMatch[0].length,
+      );
       index += 1;
       continue;
     }
@@ -473,7 +473,10 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
       pushText(remaining.slice(0, underscoreItalicMatch.index ?? 0));
       nodes.push(
         <em key={`${keyPrefix}-italic-${index}`} className="italic">
-          {renderInline(underscoreItalicMatch[1], `${keyPrefix}-italic-${index}`)}
+          {renderInline(
+            underscoreItalicMatch[1],
+            `${keyPrefix}-italic-${index}`,
+          )}
         </em>,
       );
       remaining = remaining.slice(
@@ -491,7 +494,9 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
           {renderInline(strikeMatch[1], `${keyPrefix}-strike-${index}`)}
         </span>,
       );
-      remaining = remaining.slice((strikeMatch.index ?? 0) + strikeMatch[0].length);
+      remaining = remaining.slice(
+        (strikeMatch.index ?? 0) + strikeMatch[0].length,
+      );
       index += 1;
       continue;
     }
