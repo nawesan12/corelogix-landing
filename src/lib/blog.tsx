@@ -296,7 +296,7 @@ function renderMarkdown(content: string): ReactElement[] {
     if (/^#{1,6}\s/.test(line)) {
       const level = line.match(/^#{1,6}/)![0].length;
       const text = line.replace(/^#{1,6}\s*/, "");
-      const HeadingTag = `h${Math.min(level, 6)}` as const;
+      const HeadingTag = `h${Math.min(level, 6)}` as keyof JSX.IntrinsicElements;
       elements.push(
         <HeadingTag key={nextKey()} className={headingClass(level)}>
           {renderInline(text, nextKey())}
