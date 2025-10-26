@@ -102,7 +102,7 @@ export default function EnhancedFooter({
       await cta?.onSubmit?.(email);
       setOk(true);
       setEmail("");
-    } catch (e) {
+    } catch {
       setOk(false);
     } finally {
       setSubmitting(false);
