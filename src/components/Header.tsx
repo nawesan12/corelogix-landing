@@ -13,9 +13,9 @@ import Image from "next/image";
 
 export default function Header() {
   const navItems = [
-    { href: "#", label: "Soluciones" },
+    { href: "/blog", label: "Blog" },
     { href: "/planes", label: "Planes" },
-    { href: "#", label: "Testimonios" },
+    { href: "#testimonios", label: "Testimonios" },
     { href: "/sobre", label: "Sobre" },
   ];
 
