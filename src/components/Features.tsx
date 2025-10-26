@@ -2,109 +2,100 @@
 
 import { ReactNode, useMemo } from "react";
 import {
-  ClipboardList,
-  SlidersHorizontal,
   BarChart3,
-  Moon,
-  Wrench,
-  Sparkles,
+  BellRing,
+  Boxes,
+  Building2,
+  ClipboardList,
+  Workflow,
   ArrowRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-// ----------------------
-// Types
-// ----------------------
 export type FeatureItem = {
   id: string;
   title: string;
   description: string;
   href?: string;
   ctaLabel?: string;
-  icon?: ReactNode; // Optional custom icon
+  icon?: ReactNode;
   badge?: string;
 };
 
 export type FeaturesProps = {
-  kicker?: string; // small label above the title
+  kicker?: string;
   title?: string;
-  highlight?: string; // word span to underscore
+  highlight?: string;
   subtitle?: string;
   items?: FeatureItem[];
   columns?: 2 | 3 | 4;
   className?: string;
 };
 
-// ----------------------
-// Defaults
-// ----------------------
 const DEFAULT_ITEMS: FeatureItem[] = [
   {
-    id: "copy-paste",
-    title: "Copy & paste components",
+    id: "automation",
+    title: "Workflows contables automáticos",
     description:
-      "Arrancá en minutos con piezas listas para producción. Copiá, pegá y personalizá sin fricción.",
+      "Configura reglas para asientos, impuestos y conciliaciones que se ejecutan sin intervención manual.",
     href: "#",
-    ctaLabel: "Read more",
+    ctaLabel: "Ver workflows",
+    icon: <Workflow className="h-6 w-6" aria-hidden />,
+    badge: "Nuevo",
+  },
+  {
+    id: "procurement",
+    title: "Compras centralizadas",
+    description:
+      "Solicitudes, aprobaciones y órdenes conectadas al inventario para evitar faltantes y duplicados.",
+    href: "#",
+    ctaLabel: "Ver módulo",
     icon: <ClipboardList className="h-6 w-6" aria-hidden />,
-    badge: "Ready to ship",
   },
   {
-    id: "zero-config",
-    title: "Zero configuration",
+    id: "reporting",
+    title: "Reportes financieros en tiempo real",
     description:
-      "Funciona out‑of‑the‑box con Tailwind, shadcn/ui y TypeScript. Sin archivos ocultos ni magia rara.",
+      "Dashboards configurables por rol con KPIs, flujos de caja proyectados y escenarios multi-moneda.",
     href: "#",
-    ctaLabel: "Read more",
-    icon: <SlidersHorizontal className="h-6 w-6" aria-hidden />,
-  },
-  {
-    id: "monthly",
-    title: "New components every month",
-    description:
-      "Lanzamos sets frescos con patrones modernos (tables, wizards, layouts), basados en feedback real.",
-    href: "#",
-    ctaLabel: "See roadmap",
+    ctaLabel: "Explorar reportes",
     icon: <BarChart3 className="h-6 w-6" aria-hidden />,
-    badge: "Roadmap",
+    badge: "Favorito CFO",
   },
   {
-    id: "dark-mode",
-    title: "Elegant dark mode",
+    id: "integrations",
+    title: "Integraciones bancarias y fiscales",
     description:
-      "Temas claros/oscuro consistentes con tokens y contrastes accesibles (WCAG AA).",
+      "Conectores certificados para bancos regionales, AFIP y eCommerce líderes con sincronización diaria.",
     href: "#",
-    ctaLabel: "Read more",
-    icon: <Moon className="h-6 w-6" aria-hidden />,
+    ctaLabel: "Catálogo de integraciones",
+    icon: <Building2 className="h-6 w-6" aria-hidden />,
   },
   {
-    id: "customization",
-    title: "Easy customizations",
+    id: "alerts",
+    title: "Alertas inteligentes",
     description:
-      "Configurable por props y design tokens. Cambiá colores, radios, tipografías y densidad en un paso.",
+      "Notificaciones proactivas cuando un presupuesto se excede, una orden se detiene o la demanda cambia.",
     href: "#",
-    ctaLabel: "Docs",
-    icon: <Wrench className="h-6 w-6" aria-hidden />,
+    ctaLabel: "Configurar alertas",
+    icon: <BellRing className="h-6 w-6" aria-hidden />,
   },
   {
-    id: "clean-designs",
-    title: "Simple & clean designs",
+    id: "inventory",
+    title: "Inventario omnicanal",
     description:
-      "Interfaz pulida, estados de carga y empty states listos. Menos ruido, más señal.",
+      "Control de stock en múltiples depósitos con trazabilidad por lote, serie y picking asistido.",
     href: "#",
-    ctaLabel: "Read more",
-    icon: <Sparkles className="h-6 w-6" aria-hidden />,
+    ctaLabel: "Ver inventario",
+    icon: <Boxes className="h-6 w-6" aria-hidden />,
   },
 ];
 
-// ----------------------
-// Component
-// ----------------------
 export default function Features({
-  kicker = "Explore",
-  title = "Explore our awesome",
-  highlight = "Components",
-  subtitle = "Componentes listos para producción que podés adaptar a tu marca en minutos.",
+  kicker = "Plataforma",
+  title = "Todo lo que necesitás para escalar",
+  highlight = "en un solo lugar",
+  subtitle = "Grow ERP conecta finanzas, compras, ventas e inventario en un sistema intuitivo para equipos híbridos.",
   items,
   columns = 3,
   className,
@@ -123,12 +114,8 @@ export default function Features({
   }, [columns]);
 
   return (
-    <section
-      className={`mx-auto max-w-7xl ${className ?? ""}`}
-      aria-labelledby="features-title"
-    >
-      <div className="container mx-auto px-6 py-12">
-        {/* Heading */}
+    <section className={`mx-auto max-w-7xl ${className ?? ""}`} aria-labelledby="features-title">
+      <div className="container mx-auto px-6 py-20">
         <header className="max-w-3xl">
           {kicker && (
             <p className="text-xs font-semibold uppercase tracking-wider text-[#007BD3]">
@@ -137,36 +124,32 @@ export default function Features({
           )}
           <h1
             id="features-title"
-            className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 lg:text-4xl"
+            className="mt-2 text-3xl font-bold tracking-tight text-gray-900 lg:text-4xl"
           >
             {title} <br className="hidden sm:block" />
             <span className="underline decoration-[#007BD3] decoration-4 underline-offset-4">
               {highlight}
             </span>
           </h1>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">{subtitle}</p>
+          <p className="mt-4 text-gray-600">{subtitle}</p>
         </header>
 
-        {/* Grid */}
         <motion.ul
           role="list"
-          className={`mt-10 grid grid-cols-1 gap-6 xl:gap-8 ${colClass}`}
+          className={`mt-12 grid grid-cols-1 gap-6 xl:gap-8 ${colClass}`}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={{
             hidden: { opacity: 0 },
-            show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+            show: { opacity: 1, transition: { staggerChildren: 0.08 } },
           }}
         >
           {data.map((f) => (
             <motion.li
               key={f.id}
-              variants={{
-                hidden: { y: 12, opacity: 0 },
-                show: { y: 0, opacity: 1 },
-              }}
-              className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+              variants={{ hidden: { y: 16, opacity: 0 }, show: { y: 0, opacity: 1 } }}
+              className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
             >
               <div className="flex items-start gap-4">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#E6F3FC] text-[#007BD3] ring-1 ring-[#BADDFF]">
@@ -174,25 +157,21 @@ export default function Features({
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                      {f.title}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-800">{f.title}</h3>
                     {f.badge && (
-                      <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-[#007BD3] dark:bg-neutral-800">
+                      <span className="rounded-full bg-[#E6F3FC] px-2 py-0.5 text-xs font-medium text-[#007BD3]">
                         {f.badge}
                       </span>
                     )}
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                    {f.description}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-600">{f.description}</p>
 
                   {f.href && (
                     <a
                       href={f.href}
-                      className="mt-3 inline-flex items-center text-sm font-medium text-[#007BD3] underline-offset-4 transition hover:text-[#0b6dbd] hover:underline"
+                      className="mt-4 inline-flex items-center text-sm font-medium text-[#007BD3] underline-offset-4 transition hover:text-[#0b6dbd] hover:underline"
                     >
-                      {f.ctaLabel ?? "Read more"}
+                      {f.ctaLabel ?? "Ver más"}
                       <ArrowRight className="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" />
                     </a>
                   )}

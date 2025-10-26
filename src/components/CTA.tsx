@@ -1,38 +1,74 @@
-import Image from "next/image";
-import Link from "next/link";
+import { CalendarCheck, ShieldCheck, Sparkles } from "lucide-react";
+import ScheduleDemoForm from "./ScheduleDemoForm";
+
+const points = [
+  {
+    title: "Recorrido guiado",
+    description: "Explorá finanzas, operaciones e inventario con un especialista.",
+    icon: CalendarCheck,
+  },
+  {
+    title: "Escenarios reales",
+    description:
+      "Modelamos tus procesos actuales para que veas cómo se verían en Grow ERP.",
+    icon: Sparkles,
+  },
+  {
+    title: "Hoja de ruta clara",
+    description:
+      "Terminá la sesión con tiempos, inversión estimada y próximos pasos.",
+    icon: ShieldCheck,
+  },
+];
 
 export default function CTA() {
   return (
-    <section className="overflow-hidden sm:grid sm:grid-cols-2 max-w-7xl mx-auto">
-      <div className="p-8  md:p-12 md:px-0 lg:py-24">
-        <div className=" max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
-          <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
-            ¿Listo para ver Grow ERP en acción?
-          </h2>
+    <section className="mx-auto max-w-7xl px-6 py-20" aria-labelledby="cta-heading">
+      <div className="relative overflow-hidden rounded-3xl bg-[#0B1F3A] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,123,211,0.45),_transparent_45%)]" aria-hidden />
+        <div className="relative grid gap-12 p-8 sm:p-12 lg:grid-cols-[minmax(0,_1fr)_minmax(320px,_380px)] lg:items-center">
+          <div>
+            <p className="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest">
+              Demo personalizada
+            </p>
+            <h2 id="cta-heading" className="mt-4 text-3xl font-bold sm:text-4xl">
+              ¿Listo para ver cómo Grow ERP ordena tu operación?
+            </h2>
+            <p className="mt-4 text-base text-white/80">
+              Coordiná una sesión de 45 minutos con nuestro equipo de especialistas.
+              Te mostraremos cómo automatizar procesos, conectar áreas y medir resultados
+              en una sola plataforma.
+            </p>
 
-          <p className="hidden text-gray-500 md:mt-4 md:block">
-            Coordiná una demo personalizada para descubrir cómo automatizar tareas,
-            conectar equipos y tomar decisiones con información en tiempo real.
-          </p>
+            <ul className="mt-8 space-y-4">
+              {points.map((point) => {
+                const Icon = point.icon;
+                return (
+                  <li key={point.title} className="flex gap-4">
+                    <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-lg font-semibold">{point.title}</p>
+                      <p className="text-sm text-white/70">{point.description}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <div className="mt-4 md:mt-8">
-            <Link
-              href="/agendar-demo"
-              className="inline-block rounded-sm bg-[#007BD3] px-12 py-3 text-sm font-medium text-white transition hover:bg-[#0b6dbd] focus:ring-3 focus:ring-yellow-400 focus:outline-hidden"
-            >
-              Agendar una demo
-            </Link>
+            <p className="mt-10 text-xs uppercase tracking-[0.2em] text-white/40">
+              Implementaciones disponibles en español e inglés
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white p-2 shadow-xl ring-1 ring-white/20 sm:p-4">
+            <div className="rounded-2xl border border-gray-100 p-2 sm:p-3">
+              <ScheduleDemoForm />
+            </div>
           </div>
         </div>
       </div>
-
-      <Image
-        alt=""
-        width={1000}
-        height={1000}
-        src="/hero2.png"
-        className="h-56 w-full object-cover sm:h-full"
-      />
     </section>
   );
 }

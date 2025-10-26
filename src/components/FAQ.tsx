@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, Search, Tag } from "lucide-react";
 
 export type FAQItem = {
@@ -13,15 +13,15 @@ export type FAQItem = {
 export type FAQProps = {
   title?: string;
   tocTitle?: string;
-  categories?: string[]; // Optional fixed order for sidebar
+  categories?: string[];
   items?: FAQItem[];
-  defaultOpenIds?: string[]; // Which items start expanded
+  defaultOpenIds?: string[];
   className?: string;
 };
 
 export default function EnhancedFAQ({
-  title = "Have any Questions?",
-  tocTitle = "Table of Contents",
+  title = "Preguntas frecuentes",
+  tocTitle = "Categorías",
   categories,
   items,
   defaultOpenIds = [],
@@ -36,52 +36,50 @@ export default function EnhancedFAQ({
       items ?? [
         {
           id: "pay-appointment",
-          question: "How can I pay for my appointment?",
+          question: "¿Cómo puedo pagar mi cita?",
           answer:
-            "We accept credit/debit cards and bank transfers. Invoices are sent by email immediately after booking.",
-          category: "Billing",
+            "Aceptamos tarjetas de crédito/débito y transferencias bancarias. Enviamos la factura por correo inmediatamente luego de la reserva.",
+          category: "Facturación",
         },
         {
           id: "first-consultation",
-          question: "What can I expect at my first consultation?",
+          question: "¿Qué esperar de la primera consulta?",
           answer:
-            "We'll review your goals, assess your current setup, and propose an action plan with timelines.",
+            "Revisaremos tus objetivos, analizaremos tu configuración actual y te propondremos un plan de acción con tiempos estimados.",
           category: "General",
         },
         {
           id: "opening-hours",
-          question: "What are your opening hours?",
+          question: "¿Cuáles son los horarios de atención?",
           answer:
-            "Monday to Friday 9:00–18:00 (UTC−3). For enterprise support we offer 24/7 coverage.",
-          category: "Services",
+            "De lunes a viernes de 9:00 a 18:00 (UTC−3). Para soporte enterprise ofrecemos cobertura 24/7.",
+          category: "Servicios",
         },
         {
           id: "referral-needed",
-          question: "Do I need a referral?",
+          question: "¿Necesito una derivación?",
           answer:
-            "No referral is required. If you're coming from a partner, include your partner code at checkout.",
-          category: "Trust & Safety",
+            "No es necesario. Si venís referido por un partner, ingresá tu código al reservar.",
+          category: "Confianza",
         },
         {
           id: "insurance-coverage",
-          question:
-            "Is the appointment cost covered by private health insurance?",
+          question: "¿El seguro médico cubre el costo?",
           answer:
-            "Coverage depends on your provider. We can provide a detailed invoice with ICD/CPT equivalents when applicable.",
-          category: "Billing",
+            "Depende del proveedor. Podemos emitir una factura detallada con los códigos necesarios cuando corresponda.",
+          category: "Facturación",
         },
         {
           id: "office-cleaning",
-          question: "Do you offer office cleaning services?",
+          question: "¿Ofrecen servicios de limpieza?",
           answer:
-            "Yes, with flexible schedules and eco‑friendly supplies. Ask for our SLA and checklist.",
-          category: "Office Cleaning",
+            "Sí, con horarios flexibles y productos eco-friendly. Pedí nuestro SLA y checklist.",
+          category: "Servicios",
         },
       ],
     [items],
   );
 
-  // Build category list (dedupe & order)
   const computedCategories = useMemo(() => {
     const set = new Set<string>();
     allItems.forEach((i) => i.category && set.add(i.category));
@@ -93,30 +91,24 @@ export default function EnhancedFAQ({
     return detected;
   }, [allItems, categories]);
 
-  // Filter items by search & category
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return allItems.filter((i) => {
-      const matchCat =
-        activeCategory === "all" || i.category === activeCategory;
+      const matchCat = activeCategory === "all" || i.category === activeCategory;
       const text = `${i.question} ${i.answer}`.toLowerCase();
       const matchQuery = q === "" || text.includes(q);
       return matchCat && matchQuery;
     });
   }, [allItems, query, activeCategory]);
 
-  // Open an item if URL has #id
   useEffect(() => {
     const hash = decodeURIComponent(window.location.hash.replace("#", ""));
     if (!hash) return;
     const found = allItems.find((i) => i.id === hash);
     if (found) {
       setOpen((prev) => new Set(prev).add(found.id));
-      // Scroll into view after a tick
       setTimeout(() => {
-        document
-          .getElementById(found.id)
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById(found.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
     }
   }, [allItems]);
@@ -131,15 +123,9 @@ export default function EnhancedFAQ({
   }
 
   return (
-    <section
-      className={`mx-auto max-w-7xl ${className ?? ""}`}
-      aria-labelledby="faq-title"
-    >
-      <div className="container mx-auto px-6 py-12">
-        <h1
-          id="faq-title"
-          className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl"
-        >
+    <section className={`mx-auto max-w-7xl ${className ?? ""}`} aria-labelledby="faq-title">
+      <div className="container mx-auto px-6 py-20">
+        <h1 id="faq-title" className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl">
           {title}
         </h1>
 
@@ -150,27 +136,26 @@ export default function EnhancedFAQ({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search questions..."
+              placeholder="Buscar preguntas..."
               className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 text-sm outline-none ring-offset-2 placeholder:text-gray-400 focus:border-[#007BD3] focus:ring-2 focus:ring-[#007BD3]"
-              aria-label="Search FAQs"
+              aria-label="Buscar en preguntas frecuentes"
             />
           </div>
         </div>
 
-        <div className="mt-8 xl:mt-16 lg:flex lg:-mx-12">
-          {/* Sidebar */}
+        <div className="mt-10 lg:mt-16 lg:flex lg:-mx-12">
           <aside className="lg:mx-12 lg:w-64">
             <h2 className="text-xl font-semibold text-gray-800">{tocTitle}</h2>
-            <nav aria-label="FAQ categories" className="mt-4 space-y-2 lg:mt-6">
+            <nav aria-label="Categorías FAQ" className="mt-4 space-y-2 lg:mt-6">
               <button
                 onClick={() => setActiveCategory("all")}
                 className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-gray-50 ${
                   activeCategory === "all"
-                    ? "bg-gray-100 text-blue-600"
+                    ? "bg-gray-100 text-[#007BD3]"
                     : "text-gray-600"
                 }`}
               >
-                All
+                Todas
               </button>
               {computedCategories.map((c) => (
                 <button
@@ -178,7 +163,7 @@ export default function EnhancedFAQ({
                   onClick={() => setActiveCategory(c)}
                   className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-gray-50 ${
                     activeCategory === c
-                      ? "bg-gray-100 text-blue-600"
+                      ? "bg-gray-100 text-[#007BD3]"
                       : "text-gray-600"
                   }`}
                 >
@@ -190,38 +175,25 @@ export default function EnhancedFAQ({
             </nav>
           </aside>
 
-          {/* Content */}
-          <div className="flex-1 lg:mx-12 mt-8 lg:mt-0">
+          <div className="mt-8 flex-1 lg:mx-12 lg:mt-0">
             {visible.length === 0 ? (
-              <p className="text-gray-500">
-                No results. Try a different search term.
-              </p>
+              <p className="text-gray-500">No encontramos coincidencias. Probá con otro término.</p>
             ) : (
               <ul className="space-y-4" role="list">
                 {visible.map((item) => {
                   const isOpen = open.has(item.id);
                   const panelId = `${item.id}-panel`;
-                  //eslint-disable-next-line
-                  const buttonRef = useRef<HTMLButtonElement | null>(null);
                   return (
-                    <li
-                      key={item.id}
-                      className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-                    >
+                    <li key={item.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                       <button
-                        ref={buttonRef}
                         id={item.id}
                         aria-controls={panelId}
                         aria-expanded={isOpen}
                         onClick={() => toggle(item.id)}
                         className="flex w-full items-center justify-between gap-4 text-left focus:outline-none"
                       >
-                        <h3 className="text-lg font-medium text-gray-800">
-                          {item.question}
-                        </h3>
-                        <ChevronDown
-                          className={`h-5 w-5 shrink-0 transition-transform ${isOpen ? "rotate-180 text-[#007BD3]" : "text-gray-400"}`}
-                        />
+                        <h3 className="text-lg font-medium text-gray-800">{item.question}</h3>
+                        <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${isOpen ? "rotate-180 text-[#007BD3]" : "text-gray-400"}`} />
                       </button>
                       <div
                         id={panelId}
@@ -232,13 +204,9 @@ export default function EnhancedFAQ({
                         }`}
                       >
                         <div className="overflow-hidden">
-                          <div className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600">
-                            {item.answer}
-                          </div>
+                          <div className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600">{item.answer}</div>
                           {item.category && (
-                            <div className="mt-3 text-xs text-gray-400">
-                              Category: {item.category}
-                            </div>
+                            <div className="mt-3 text-xs text-gray-400">Categoría: {item.category}</div>
                           )}
                         </div>
                       </div>

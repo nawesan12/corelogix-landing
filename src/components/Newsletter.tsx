@@ -5,9 +5,7 @@ import { Mail, CheckCircle2, Loader2 } from "lucide-react";
 
 export default function EnhancedNewsletter() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -15,7 +13,6 @@ export default function EnhancedNewsletter() {
 
     setStatus("loading");
     try {
-      // Simulate async signup request
       await new Promise((resolve) => setTimeout(resolve, 1200));
       setStatus("success");
       setEmail("");
@@ -27,19 +24,25 @@ export default function EnhancedNewsletter() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
+    <section className="mx-auto max-w-7xl px-6 py-20" aria-labelledby="newsletter-title">
       <div className="mx-auto max-w-screen-md text-center">
-        <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-          Suscribite a nuestro boletín ✉️
+        <p className="text-sm font-semibold uppercase tracking-widest text-[#007BD3]">
+          Comunidad Grow ERP
+        </p>
+        <h2
+          id="newsletter-title"
+          className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl"
+        >
+          Insights para líderes de finanzas y operaciones
         </h2>
         <p className="mt-4 text-gray-600">
-          Recibí novedades, artículos y actualizaciones exclusivas directamente
-          en tu correo.
+          Recibí casos de éxito, playbooks y novedades del producto todos los meses.
+          Sin spam, solo tácticas accionables para equipos que quieren escalar.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
           aria-label="Formulario de suscripción al boletín"
         >
           <div className="relative w-full max-w-sm">
@@ -47,9 +50,9 @@ export default function EnhancedNewsletter() {
             <input
               type="email"
               required
-              id="email"
+              id="newsletter-email"
               name="email"
-              placeholder="Tu correo electrónico"
+              placeholder="tu@empresa.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-4 text-sm text-gray-800 shadow-sm outline-none transition focus:border-[#007BD3] focus:ring-2 focus:ring-[#007BD3]/50"
@@ -73,7 +76,7 @@ export default function EnhancedNewsletter() {
 
         {status === "success" && (
           <p className="mt-4 text-sm text-green-600">
-            ¡Gracias por suscribirte! 🎉 Revisá tu bandeja de entrada.
+            ¡Gracias por sumarte! Revisa tu bandeja de entrada para confirmar la suscripción.
           </p>
         )}
         {status === "error" && (
