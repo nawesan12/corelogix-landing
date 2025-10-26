@@ -17,7 +17,7 @@ export default function Header() {
     { href: "/planes", label: "Planes" },
     { href: "/blog", label: "Blog" },
     { href: "/testimonios", label: "Testimonios" },
-    { href: "/sobre", label: "Sobre" },
+    { href: "/nosotros", label: "Nosotros" },
   ];
 
   return (
