@@ -102,7 +102,8 @@ export default function EnhancedFooter({
       await cta?.onSubmit?.(email);
       setOk(true);
       setEmail("");
-    } catch {
+    } catch (error) {
+      console.error(error);
       setOk(false);
     } finally {
       setSubmitting(false);

@@ -63,7 +63,7 @@ export default function Header() {
               </Button>
 
               <Button asChild className="bg-[#007BD3] rounded-full">
-                <Link href="#">Agendar una demo</Link>
+                <Link href="/agendar-demo">Agendar una demo</Link>
               </Button>
             </div>
 
@@ -115,18 +115,14 @@ export default function Header() {
                     </ul>
 
                     <div className="mt-6 grid grid-cols-2 gap-3">
-                      <Button
-                        asChild
-                        className="bg-teal-600 hover:bg-teal-600/90 text-white"
-                      >
-                        <Link href="#">Login</Link>
+                      <Button asChild variant="secondary">
+                        <Link href="#">Acceder</Link>
                       </Button>
                       <Button
                         asChild
-                        variant="secondary"
-                        className="bg-gray-100 text-teal-600 hover:bg-gray-200"
+                        className="bg-[#007BD3] hover:bg-[#0b6dbd] text-white"
                       >
-                        <Link href="#">Register</Link>
+                        <Link href="/agendar-demo">Agendar una demo</Link>
                       </Button>
                     </div>
                   </nav>
