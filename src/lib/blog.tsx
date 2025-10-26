@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { ReactElement, ReactNode } from "react";
+import type { JSX as ReactJSX, ReactElement, ReactNode } from "react";
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "src/content/blog");
 
@@ -296,7 +296,8 @@ function renderMarkdown(content: string): ReactElement[] {
     if (/^#{1,6}\s/.test(line)) {
       const level = line.match(/^#{1,6}/)![0].length;
       const text = line.replace(/^#{1,6}\s*/, "");
-      const HeadingTag = `h${Math.min(level, 6)}` as keyof JSX.IntrinsicElements;
+      const HeadingTag =
+        `h${Math.min(level, 6)}` as keyof ReactJSX.IntrinsicElements;
       elements.push(
         <HeadingTag key={nextKey()} className={headingClass(level)}>
           {renderInline(text, nextKey())}
