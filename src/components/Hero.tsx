@@ -30,7 +30,7 @@ export default function Hero() {
         animate={{ opacity: 1, scale: [0.9, 1, 0.95, 1] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div style={{ y: baseY }} className="w-full">
+      <motion.div style={{ y: baseY }} className="w-full mx-auto">
         <Image src="/hero1.png" alt="Grow ERP" width={1000} height={1000} />
       </motion.div>
       <motion.div
@@ -40,7 +40,13 @@ export default function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
       >
-        <Image src="/hero2.png" alt="Grow ERP" width={700} height={700} priority />
+        <Image
+          src="/hero2.png"
+          alt="Grow ERP"
+          width={700}
+          height={700}
+          priority
+        />
       </motion.div>
     </motion.div>
   );
