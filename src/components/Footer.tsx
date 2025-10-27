@@ -11,6 +11,7 @@ import {
   Github,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type FooterLink = { label: string; href: string; external?: boolean };
 export type FooterColumn = { title: string; links: FooterLink[] };
@@ -126,9 +127,13 @@ export default function EnhancedFooter({
       : `${year}`;
 
   return (
-    <footer
+    <motion.footer
       className={`bg-white text-gray-700 ${className ?? ""}`}
       aria-labelledby="footer-heading"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <h2 id="footer-heading" className="sr-only">
         Footer
@@ -138,7 +143,13 @@ export default function EnhancedFooter({
         {/* Top grid */}
         <div className="lg:grid lg:grid-cols-2">
           {/* CTA / Newsletter */}
-          <div className="border-b border-gray-100 py-10 lg:order-last lg:border-s lg:border-b-0 lg:py-16 lg:ps-16">
+          <motion.div
+            className="border-b border-gray-100 py-10 lg:order-last lg:border-s lg:border-b-0 lg:py-16 lg:ps-16"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
             {/* Mobile brand */}
             <div className="block text-[#007BD3] lg:hidden">
               {brand ?? (
@@ -161,7 +172,15 @@ export default function EnhancedFooter({
                 )}
               </div>
 
-              <form onSubmit={handleSubmit} className="mt-4 w-full" noValidate>
+              <motion.form
+                onSubmit={handleSubmit}
+                className="mt-4 w-full"
+                noValidate
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+              >
                 <label htmlFor="footer-email" className="sr-only">
                   Email
                 </label>
@@ -188,17 +207,33 @@ export default function EnhancedFooter({
                       : (cta.buttonLabel ?? "Suscribirse")}
                   </button>
                 </div>
-                {ok === true && (
-                  <p className="mt-2 text-sm text-green-600">
-                    ¡Listo! Te contactamos a la brevedad.
-                  </p>
-                )}
-                {ok === false && (
-                  <p className="mt-2 text-sm text-red-600">
-                    Ups, algo salió mal. Probá de nuevo.
-                  </p>
-                )}
-              </form>
+                <AnimatePresence mode="wait">
+                  {ok === true && (
+                    <motion.p
+                      key="ok"
+                      className="mt-2 text-sm text-green-600"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                    >
+                      ¡Listo! Te contactamos a la brevedad.
+                    </motion.p>
+                  )}
+                  {ok === false && (
+                    <motion.p
+                      key="error"
+                      className="mt-2 text-sm text-red-600"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                    >
+                      Ups, algo salió mal. Probá de nuevo.
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.form>
 
               {/* Contacts */}
               <ul className="mt-4 space-y-2 text-sm text-gray-600">
@@ -221,10 +256,16 @@ export default function EnhancedFooter({
                 )}
               </ul>
             </div>
-          </div>
+          </motion.div>
 
           {/* Link columns + desktop brand */}
-          <div className="py-10 lg:py-16 lg:pe-16">
+          <motion.div
+            className="py-10 lg:py-16 lg:pe-16"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
             <div className="hidden items-center gap-3 text-[#007BD3] lg:flex">
               {brand ?? (
                 <span className="text-xl font-bold">{companyName}</span>
@@ -235,28 +276,36 @@ export default function EnhancedFooter({
               {description}
             </p>
 
-            <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
-              {columns.map((col) => (
-                <nav key={col.title} aria-label={col.title}>
+            <motion.div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
+              {columns.map((col, index) => (
+                <motion.nav
+                  key={col.title}
+                  aria-label={col.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.35, ease: "easeOut", delay: 0.05 * index }}
+                >
                   <p className="font-medium text-gray-900">{col.title}</p>
                   <ul className="mt-6 space-y-3 text-sm">
                     {col.links.map((l) => (
                       <li key={l.label}>
-                        <a
+                        <motion.a
                           href={l.href}
                           {...(l.external
                             ? { target: "_blank", rel: "noreferrer" }
                             : {})}
                           className="text-gray-700 transition hover:opacity-80"
+                          whileHover={{ x: 4 }}
                         >
                           {l.label}
-                        </a>
+                        </motion.a>
                       </li>
                     ))}
                   </ul>
-                </nav>
+                </motion.nav>
               ))}
-            </div>
+            </motion.div>
 
             {/* Bottom bar */}
             <div className="mt-8 border-t border-gray-100 pt-8">
@@ -290,12 +339,14 @@ export default function EnhancedFooter({
                 <ul className="flex items-center gap-3">
                   {socials.map((s) => (
                     <li key={s.name}>
-                      <a
+                      <motion.a
                         href={s.href}
                         target="_blank"
                         rel="noreferrer"
                         aria-label={s.name}
                         className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-[#007BD3] hover:text-[#007BD3]"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                       >
                         {s.name === "Instagram" && (
                           <Instagram className="h-4 w-4" />
@@ -307,26 +358,35 @@ export default function EnhancedFooter({
                         {s.name === "Facebook" && (
                           <Facebook className="h-4 w-4" />
                         )}
-                      </a>
+                      </motion.a>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Back to top */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed bottom-6 right-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-gray-200 transition ${
-          showTop ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        aria-label="Volver arriba"
-      >
-        <ArrowUp className="h-5 w-5 text-[#007BD3]" />
-      </button>
-    </footer>
+      <AnimatePresence>
+        {showTop && (
+          <motion.button
+            key="back-to-top"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-gray-200"
+            aria-label="Volver arriba"
+            initial={{ opacity: 0, scale: 0.8, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 12 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ArrowUp className="h-5 w-5 text-[#007BD3]" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.footer>
   );
 }

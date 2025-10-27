@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,20 +22,37 @@ export default function Header() {
     { href: "/nosotros", label: "Nosotros" },
   ];
 
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 20);
+  });
+
   return (
-    <header className="">
+    <motion.header
+      className="sticky top-0 z-50"
+      animate={{
+        backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0)",
+        boxShadow: scrolled ? "0 10px 30px -20px rgba(15,23,42,0.3)" : "0 0 0 rgba(0,0,0,0)",
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Left: Logo */}
           <div className="md:flex md:items-center md:gap-12">
             <Link className="" href="/">
-              <Image
-                src="/iso-grow.png"
-                alt="Grow ERP"
-                height={200}
-                width={200}
-                className="h-8 aspect-auto object-contain"
-              />
+              <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }}>
+                <Image
+                  src="/iso-grow.png"
+                  alt="Grow ERP"
+                  height={200}
+                  width={200}
+                  className="h-8 aspect-auto object-contain"
+                />
+              </motion.div>
             </Link>
           </div>
 
@@ -41,15 +60,21 @@ export default function Header() {
           <div className="hidden md:block">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
-                {navItems.map((item) => (
-                  <li key={item.label}>
+                {navItems.map((item, index) => (
+                  <motion.li
+                    key={item.label}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut", delay: 0.05 * index }}
+                    whileHover={{ y: -2 }}
+                  >
                     <Link
                       href={item.href}
                       className="text-gray-800 text-lg font-medium transition hover:text-gray-500/75"
                     >
                       {item.label}
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </nav>
@@ -58,13 +83,17 @@ export default function Header() {
           {/* Right: Auth + Mobile Trigger */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex sm:gap-4">
-              <Button variant={"secondary"} className="rounded-full" asChild>
-                <Link href="#">Acceder</Link>
-              </Button>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Button variant={"secondary"} className="rounded-full" asChild>
+                  <Link href="#">Acceder</Link>
+                </Button>
+              </motion.div>
 
-              <Button asChild className="bg-[#007BD3] rounded-full">
-                <Link href="/agendar-demo">Agendar una demo</Link>
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button asChild className="bg-[#007BD3] rounded-full">
+                  <Link href="/agendar-demo">Agendar una demo</Link>
+                </Button>
+              </motion.div>
             </div>
 
             {/* Mobile Menu */}
@@ -132,6 +161,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
