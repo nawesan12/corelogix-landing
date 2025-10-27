@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useId } from "react";
 import { Check, X, Star, Sparkles } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
 
 export type BillingCycle = "monthly" | "yearly";
@@ -46,6 +47,25 @@ function formatMoney(value: number, currency = "USD", locale = "es-AR") {
     return `${currency} ${value}`;
   }
 }
+
+const cardsContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+  },
+};
+
+const cardVariants = {
+  hidden: { y: 36, opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+};
+
+const MotionButton = motion(Button);
 
 export default function EnhancedPricing({
   title = "Planes pensados para cada etapa",
@@ -118,11 +138,20 @@ export default function EnhancedPricing({
   );
 
   return (
-    <section
+    <motion.section
       aria-labelledby="pricing-heading"
       className={`mx-auto max-w-7xl px-6 py-20 ${className ?? ""}`}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
     >
-      <header className="mx-auto max-w-2xl text-center">
+      <motion.header
+        className="mx-auto max-w-2xl text-center"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <h1
           id="pricing-heading"
           className="text-3xl font-bold tracking-tight text-gray-900 lg:text-4xl"
@@ -136,10 +165,12 @@ export default function EnhancedPricing({
           role="group"
           aria-label="Ciclo de facturación"
         >
-          <button
+          <motion.button
             type="button"
             aria-pressed={cycle === "monthly"}
             onClick={() => setCycle("monthly")}
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: cycle === "monthly" ? 1 : 1.02 }}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               cycle === "monthly"
                 ? "bg-[#007BD3] text-white shadow"
@@ -147,11 +178,13 @@ export default function EnhancedPricing({
             }`}
           >
             Mensual
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="button"
             aria-pressed={cycle === "yearly"}
             onClick={() => setCycle("yearly")}
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: cycle === "yearly" ? 1 : 1.02 }}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               cycle === "yearly"
                 ? "bg-[#007BD3] text-white shadow"
@@ -162,16 +195,19 @@ export default function EnhancedPricing({
             <span className="ml-1 hidden text-xs text-white/80 sm:inline">
               (mejor precio)
             </span>
-          </button>
+          </motion.button>
         </div>
-      </header>
+      </motion.header>
 
-      <div className="mx-auto mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <motion.div
+        className="mx-auto mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3"
+        variants={cardsContainer}
+      >
         {data.map((plan) => {
           const price = cycle === "monthly" ? plan.priceMonthly : plan.priceYearly;
           const isFree = price === 0;
           return (
-            <article
+            <motion.article
               key={plan.id}
               aria-labelledby={`${groupId}-${plan.id}-title`}
               className={`relative flex flex-col justify-between rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md focus-within:shadow-md ${
@@ -179,12 +215,24 @@ export default function EnhancedPricing({
                   ? "border-[#007BD3] ring-1 ring-[#007BD3]/30"
                   : "border-gray-200"
               }`}
+              variants={cardVariants}
+              whileHover={{ translateY: plan.highlight ? -20 : -12, scale: plan.highlight ? 1.02 : 1.01 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
-              {plan.highlight && (
-                <div className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-[#007BD3] px-3 py-1 text-xs font-semibold text-white shadow">
-                  <Sparkles className="h-3.5 w-3.5" /> Plan recomendado
-                </div>
-              )}
+              <AnimatePresence>
+                {plan.highlight && (
+                  <motion.div
+                    key="highlight"
+                    className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-[#007BD3] px-3 py-1 text-xs font-semibold text-white shadow"
+                    initial={{ y: -8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -8, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" /> Plan recomendado
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <div>
                 <div className="flex items-center gap-2">
@@ -203,12 +251,19 @@ export default function EnhancedPricing({
                 )}
 
                 <div className="mt-6 flex items-baseline gap-2">
-                  <span
-                    className={`text-3xl font-bold ${plan.highlight ? "text-[#007BD3]" : "text-gray-900"}`}
-                    aria-live="polite"
-                  >
-                    {isFree ? "Gratis" : formatMoney(price, currency, locale)}
-                  </span>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={`${plan.id}-${cycle}`}
+                      className={`text-3xl font-bold ${plan.highlight ? "text-[#007BD3]" : "text-gray-900"}`}
+                      aria-live="polite"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                    >
+                      {isFree ? "Gratis" : formatMoney(price, currency, locale)}
+                    </motion.span>
+                  </AnimatePresence>
                   <span className="text-sm text-gray-500">
                     / {cycle === "monthly" ? "mes" : "año"}
                   </span>
@@ -241,33 +296,41 @@ export default function EnhancedPricing({
               </div>
 
               <div className="mt-8">
-                <Button
+                <MotionButton
                   className={`w-full justify-center rounded-md px-4 py-2 text-sm font-medium shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     plan.highlight
                       ? "bg-[#007BD3] text-white hover:bg-[#0b6dbd] focus-visible:ring-[#007BD3]"
                       : "bg-gray-900 text-white hover:bg-gray-800 focus-visible:ring-gray-900"
                   }`}
                   onClick={() => onSelect?.(plan.id, cycle)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   {plan.ctaLabel ?? "Elegir Plan"}
-                </Button>
+                </MotionButton>
                 {!isFree && cycle === "yearly" && plan.priceMonthly > 0 && (
                   <p className="mt-2 text-center text-xs text-gray-500">
                     Equivale a {formatMoney(Math.round(plan.priceYearly / 12), currency, locale)} / mes
                   </p>
                 )}
               </div>
-            </article>
+            </motion.article>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div className="mx-auto mt-12 max-w-4xl rounded-2xl bg-[#F5FBFF] p-6 text-sm text-gray-700">
+      <motion.div
+        className="mx-auto mt-12 max-w-4xl rounded-2xl bg-[#F5FBFF] p-6 text-sm text-gray-700"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+      >
         <p>
           ¿Necesitás una propuesta a medida? Nuestro equipo comercial puede armar un plan adaptado a tu estructura, integraciones
           y acuerdos de nivel de servicio. Escribinos a <a className="font-semibold text-[#007BD3]" href="mailto:hola@growerp.com">hola@growerp.com</a>.
         </p>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

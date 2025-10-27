@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, Search, Tag } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type FAQItem = {
   id: string;
@@ -17,6 +18,19 @@ export type FAQProps = {
   items?: FAQItem[];
   defaultOpenIds?: string[];
   className?: string;
+};
+
+const listVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.35, ease: "easeOut" } },
 };
 
 export default function EnhancedFAQ({
@@ -123,42 +137,45 @@ export default function EnhancedFAQ({
   }
 
   return (
-    <section className={`mx-auto max-w-7xl ${className ?? ""}`} aria-labelledby="faq-title">
+    <motion.section className={`mx-auto max-w-7xl ${className ?? ""}`} aria-labelledby="faq-title" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.45, ease: "easeOut" }}>
       <div className="container mx-auto px-6 py-20">
-        <h1 id="faq-title" className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl">
+        <motion.h1 id="faq-title" className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.6 }} transition={{ duration: 0.4, ease: "easeOut" }}>
           {title}
-        </h1>
+        </motion.h1>
 
-        <div className="mt-6 flex items-center justify-center">
+        <motion.div className="mt-6 flex items-center justify-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.6 }} transition={{ delay: 0.1, duration: 0.35 }}>
           <div className="relative w-full max-w-2xl">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            <input
+            <motion.input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Buscar preguntas..."
               className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 text-sm outline-none ring-offset-2 placeholder:text-gray-400 focus:border-[#007BD3] focus:ring-2 focus:ring-[#007BD3]"
               aria-label="Buscar en preguntas frecuentes"
+              whileFocus={{ scale: 1.01 }}
             />
           </div>
-        </div>
+        </motion.div>
 
         <div className="mt-10 lg:mt-16 lg:flex lg:-mx-12">
-          <aside className="lg:mx-12 lg:w-64">
+          <motion.aside className="lg:mx-12 lg:w-64" initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <h2 className="text-xl font-semibold text-gray-800">{tocTitle}</h2>
             <nav aria-label="Categorías FAQ" className="mt-4 space-y-2 lg:mt-6">
-              <button
+              <motion.button
                 onClick={() => setActiveCategory("all")}
                 className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-gray-50 ${
                   activeCategory === "all"
                     ? "bg-gray-100 text-[#007BD3]"
                     : "text-gray-600"
                 }`}
+                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.01 }}
               >
                 Todas
-              </button>
+              </motion.button>
               {computedCategories.map((c) => (
-                <button
+                <motion.button
                   key={c}
                   onClick={() => setActiveCategory(c)}
                   className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-gray-50 ${
@@ -166,58 +183,75 @@ export default function EnhancedFAQ({
                       ? "bg-gray-100 text-[#007BD3]"
                       : "text-gray-600"
                   }`}
+                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.01 }}
                 >
                   <span className="inline-flex items-center gap-2">
                     <Tag className="h-4 w-4" /> {c}
                   </span>
-                </button>
+                </motion.button>
               ))}
             </nav>
-          </aside>
+          </motion.aside>
 
           <div className="mt-8 flex-1 lg:mx-12 lg:mt-0">
             {visible.length === 0 ? (
-              <p className="text-gray-500">No encontramos coincidencias. Probá con otro término.</p>
+              <motion.p className="text-gray-500" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                No encontramos coincidencias. Probá con otro término.
+              </motion.p>
             ) : (
-              <ul className="space-y-4" role="list">
+              <motion.ul className="space-y-4" role="list" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={listVariants}>
                 {visible.map((item) => {
                   const isOpen = open.has(item.id);
                   const panelId = `${item.id}-panel`;
                   return (
-                    <li key={item.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                      <button
+                    <motion.li key={item.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm" variants={itemVariants}>
+                      <motion.button
                         id={item.id}
                         aria-controls={panelId}
                         aria-expanded={isOpen}
                         onClick={() => toggle(item.id)}
                         className="flex w-full items-center justify-between gap-4 text-left focus:outline-none"
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <h3 className="text-lg font-medium text-gray-800">{item.question}</h3>
-                        <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${isOpen ? "rotate-180 text-[#007BD3]" : "text-gray-400"}`} />
-                      </button>
-                      <div
-                        id={panelId}
-                        role="region"
-                        aria-labelledby={item.id}
-                        className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-                          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                        }`}
-                      >
-                        <div className="overflow-hidden">
-                          <div className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600">{item.answer}</div>
-                          {item.category && (
-                            <div className="mt-3 text-xs text-gray-400">Categoría: {item.category}</div>
-                          )}
-                        </div>
-                      </div>
-                    </li>
+                        <span className="text-lg font-medium text-gray-800">{item.question}</span>
+                        <motion.div animate={{ rotate: isOpen ? 180 : 0, color: isOpen ? "#007BD3" : "#9ca3af" }} transition={{ duration: 0.25 }}>
+                          <ChevronDown className="h-5 w-5" />
+                        </motion.div>
+                      </motion.button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            key="content"
+                            id={panelId}
+                            role="region"
+                            aria-labelledby={item.id}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                          >
+                            <div className="overflow-hidden">
+                              <motion.div className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                                {item.answer}
+                              </motion.div>
+                              {item.category && (
+                                <motion.div className="mt-3 text-xs text-gray-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.3 }}>
+                                  Categoría: {item.category}
+                                </motion.div>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.li>
                   );
                 })}
-              </ul>
+              </motion.ul>
             )}
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

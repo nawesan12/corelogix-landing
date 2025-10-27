@@ -1,4 +1,7 @@
+"use client";
+
 import { Building2, Gauge, ShieldCheck, SmilePlus } from "lucide-react";
+import { motion } from "framer-motion";
 
 const stats = [
   {
@@ -35,10 +38,39 @@ const stats = [
   },
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const card = {
+  hidden: { y: 24, opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+};
+
 export default function Stats() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16" aria-labelledby="stats-title">
-      <div className="mx-auto max-w-3xl text-center">
+    <motion.section
+      className="mx-auto max-w-7xl px-6 py-16"
+      aria-labelledby="stats-title"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+    >
+      <motion.div
+        className="mx-auto max-w-3xl text-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <p className="text-sm font-semibold uppercase tracking-wider text-[#007BD3]">
           Resultados reales
         </p>
@@ -52,28 +84,55 @@ export default function Stats() {
           Basado en encuestas a clientes activos en retail, manufactura y servicios
           profesionales durante el último año.
         </p>
-      </div>
+      </motion.div>
 
-      <dl className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <motion.dl
+        className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
+        variants={container}
+      >
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div
+            <motion.div
               key={stat.id}
-              className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              variants={card}
+              whileHover={{ y: -12, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-sm"
             >
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#E6F3FC] px-3 py-1 text-xs font-semibold text-[#007BD3]">
+              <motion.span
+                className="inline-flex items-center gap-2 rounded-full bg-[#E6F3FC] px-3 py-1 text-xs font-semibold text-[#007BD3]"
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 250, damping: 18, delay: 0.1 }}
+              >
                 <Icon className="h-4 w-4" />
                 {stat.label}
-              </span>
-              <dd className="mt-6 text-4xl font-bold text-gray-900">{stat.value}</dd>
-              <dt className="mt-2 text-sm leading-relaxed text-gray-600">
+              </motion.span>
+              <motion.dd
+                className="mt-6 text-4xl font-bold text-gray-900"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {stat.value}
+              </motion.dd>
+              <motion.dt
+                className="mt-2 text-sm leading-relaxed text-gray-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
+              >
                 {stat.description}
-              </dt>
-            </div>
+              </motion.dt>
+              <motion.div
+                aria-hidden
+                className="absolute inset-0 -z-10 bg-gradient-to-br from-[#E6F3FC] via-transparent to-transparent opacity-0 transition group-hover:opacity-100"
+              />
+            </motion.div>
           );
         })}
-      </dl>
-    </section>
+      </motion.dl>
+    </motion.section>
   );
 }
