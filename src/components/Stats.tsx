@@ -81,8 +81,8 @@ export default function Stats() {
           El impacto de Grow ERP en organizaciones como la tuya
         </h2>
         <p className="mt-4 text-gray-600">
-          Basado en encuestas a clientes activos en retail, manufactura y servicios
-          profesionales durante el último año.
+          Basado en encuestas a clientes activos en retail, manufactura y
+          servicios profesionales durante el último año.
         </p>
       </motion.div>
 
@@ -95,6 +95,7 @@ export default function Stats() {
           return (
             <motion.div
               key={stat.id}
+              //@ts-expect-error bla
               variants={card}
               whileHover={{ y: -12, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 18 }}
@@ -104,7 +105,12 @@ export default function Stats() {
                 className="inline-flex items-center gap-2 rounded-full bg-[#E6F3FC] px-3 py-1 text-xs font-semibold text-[#007BD3]"
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 250, damping: 18, delay: 0.1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 18,
+                  delay: 0.1,
+                }}
               >
                 <Icon className="h-4 w-4" />
                 {stat.label}

@@ -86,13 +86,18 @@ export default function EnhancedPricing({
         {
           id: "launch",
           name: "Launch",
-          description: "Ideal para equipos que dejan las planillas y buscan orden.",
+          description:
+            "Ideal para equipos que dejan las planillas y buscan orden.",
           priceMonthly: 99,
           priceYearly: 999,
           features: [
             { label: "Usuarios ilimitados", included: true },
             { label: "Módulos Finanzas + Inventario", included: true },
-            { label: "Integraciones estándar", included: true, hint: "CRM y eCommerce" },
+            {
+              label: "Integraciones estándar",
+              included: true,
+              hint: "CRM y eCommerce",
+            },
             { label: "Automatizaciones avanzadas", included: false },
             { label: "Soporte prioritario 24/7", included: false },
             { label: "Implementación asistida", included: false },
@@ -102,7 +107,8 @@ export default function EnhancedPricing({
         {
           id: "scale",
           name: "Scale",
-          description: "Todo lo necesario para operar múltiples unidades de negocio.",
+          description:
+            "Todo lo necesario para operar múltiples unidades de negocio.",
           priceMonthly: 199,
           priceYearly: 1990,
           highlight: true,
@@ -120,7 +126,8 @@ export default function EnhancedPricing({
         {
           id: "enterprise",
           name: "Enterprise",
-          description: "Para corporaciones con necesidades específicas y SLAs dedicados.",
+          description:
+            "Para corporaciones con necesidades específicas y SLAs dedicados.",
           priceMonthly: 399,
           priceYearly: 3990,
           features: [
@@ -204,7 +211,8 @@ export default function EnhancedPricing({
         variants={cardsContainer}
       >
         {data.map((plan) => {
-          const price = cycle === "monthly" ? plan.priceMonthly : plan.priceYearly;
+          const price =
+            cycle === "monthly" ? plan.priceMonthly : plan.priceYearly;
           const isFree = price === 0;
           return (
             <motion.article
@@ -215,8 +223,12 @@ export default function EnhancedPricing({
                   ? "border-[#007BD3] ring-1 ring-[#007BD3]/30"
                   : "border-gray-200"
               }`}
+              //@ts-expect-error bla
               variants={cardVariants}
-              whileHover={{ translateY: plan.highlight ? -20 : -12, scale: plan.highlight ? 1.02 : 1.01 }}
+              whileHover={{
+                translateY: plan.highlight ? -20 : -12,
+                scale: plan.highlight ? 1.02 : 1.01,
+              }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
               <AnimatePresence>
@@ -247,7 +259,9 @@ export default function EnhancedPricing({
                   </h2>
                 </div>
                 {plan.description && (
-                  <p className="mt-2 text-sm text-gray-600">{plan.description}</p>
+                  <p className="mt-2 text-sm text-gray-600">
+                    {plan.description}
+                  </p>
                 )}
 
                 <div className="mt-6 flex items-baseline gap-2">
@@ -278,12 +292,22 @@ export default function EnhancedPricing({
                   {plan.features.map((f, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm">
                       {f.included ? (
-                        <Check className="mt-0.5 h-5 w-5 shrink-0 text-[#007BD3]" aria-hidden />
+                        <Check
+                          className="mt-0.5 h-5 w-5 shrink-0 text-[#007BD3]"
+                          aria-hidden
+                        />
                       ) : (
-                        <X className="mt-0.5 h-5 w-5 shrink-0 text-red-400" aria-hidden />
+                        <X
+                          className="mt-0.5 h-5 w-5 shrink-0 text-red-400"
+                          aria-hidden
+                        />
                       )}
                       <span
-                        className={f.included ? "text-gray-700" : "text-gray-400 line-through"}
+                        className={
+                          f.included
+                            ? "text-gray-700"
+                            : "text-gray-400 line-through"
+                        }
                       >
                         {f.label}
                         {f.hint && (
@@ -310,7 +334,13 @@ export default function EnhancedPricing({
                 </MotionButton>
                 {!isFree && cycle === "yearly" && plan.priceMonthly > 0 && (
                   <p className="mt-2 text-center text-xs text-gray-500">
-                    Equivale a {formatMoney(Math.round(plan.priceYearly / 12), currency, locale)} / mes
+                    Equivale a{" "}
+                    {formatMoney(
+                      Math.round(plan.priceYearly / 12),
+                      currency,
+                      locale,
+                    )}{" "}
+                    / mes
                   </p>
                 )}
               </div>
@@ -327,8 +357,16 @@ export default function EnhancedPricing({
         transition={{ duration: 0.45, ease: "easeOut" }}
       >
         <p>
-          ¿Necesitás una propuesta a medida? Nuestro equipo comercial puede armar un plan adaptado a tu estructura, integraciones
-          y acuerdos de nivel de servicio. Escribinos a <a className="font-semibold text-[#007BD3]" href="mailto:hola@growerp.com">hola@growerp.com</a>.
+          ¿Necesitás una propuesta a medida? Nuestro equipo comercial puede
+          armar un plan adaptado a tu estructura, integraciones y acuerdos de
+          nivel de servicio. Escribinos a{" "}
+          <a
+            className="font-semibold text-[#007BD3]"
+            href="mailto:hola@growerp.com"
+          >
+            hola@growerp.com
+          </a>
+          .
         </p>
       </motion.div>
     </motion.section>

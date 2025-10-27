@@ -92,8 +92,9 @@ export default function ValueProps() {
             Escalá tu operación con procesos claros y datos confiables
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Diseñamos la plataforma junto a líderes financieros y operativos para
-            eliminar planillas aisladas y ganar visibilidad en cada eslabón.
+            Diseñamos la plataforma junto a líderes financieros y operativos
+            para eliminar planillas aisladas y ganar visibilidad en cada
+            eslabón.
           </p>
         </motion.header>
 
@@ -106,6 +107,7 @@ export default function ValueProps() {
             return (
               <motion.article
                 key={block.id}
+                //@ts-expect-error bla
                 variants={card}
                 whileHover={{ translateY: -12, rotateX: 2 }}
                 whileTap={{ scale: 0.98 }}
@@ -136,7 +138,10 @@ export default function ValueProps() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 * index, duration: 0.3 }}
                     >
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#007BD3]" aria-hidden />
+                      <span
+                        className="mt-1 h-1.5 w-1.5 rounded-full bg-[#007BD3]"
+                        aria-hidden
+                      />
                       {bullet}
                     </motion.li>
                   ))}

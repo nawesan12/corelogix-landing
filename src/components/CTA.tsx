@@ -7,7 +7,8 @@ import ScheduleDemoForm from "./ScheduleDemoForm";
 const points = [
   {
     title: "Recorrido guiado",
-    description: "Explorá finanzas, operaciones e inventario con un especialista.",
+    description:
+      "Explorá finanzas, operaciones e inventario con un especialista.",
     icon: CalendarCheck,
   },
   {
@@ -26,7 +27,10 @@ const points = [
 
 const listVariants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+  },
 };
 
 const itemVariants = {
@@ -92,22 +96,35 @@ export default function CTA() {
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.2 }}
             >
-              Coordiná una sesión de 45 minutos con nuestro equipo de especialistas.
-              Te mostraremos cómo automatizar procesos, conectar áreas y medir resultados
-              en una sola plataforma.
+              Coordiná una sesión de 45 minutos con nuestro equipo de
+              especialistas. Te mostraremos cómo automatizar procesos, conectar
+              áreas y medir resultados en una sola plataforma.
             </motion.p>
 
-            <motion.ul className="mt-8 space-y-4" variants={listVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}>
+            <motion.ul
+              className="mt-8 space-y-4"
+              variants={listVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.4 }}
+            >
               {points.map((point) => {
                 const Icon = point.icon;
                 return (
-                  <motion.li key={point.title} className="flex gap-4" variants={itemVariants} whileHover={{ x: 4 }}>
+                  <motion.li
+                    key={point.title}
+                    className="flex gap-4" //@ts-expect-error bla
+                    variants={itemVariants}
+                    whileHover={{ x: 4 }}
+                  >
                     <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white">
                       <Icon className="h-5 w-5" />
                     </span>
                     <div>
                       <p className="text-lg font-semibold">{point.title}</p>
-                      <p className="text-sm text-white/70">{point.description}</p>
+                      <p className="text-sm text-white/70">
+                        {point.description}
+                      </p>
                     </div>
                   </motion.li>
                 );

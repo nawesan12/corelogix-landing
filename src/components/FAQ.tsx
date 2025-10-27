@@ -108,7 +108,8 @@ export default function EnhancedFAQ({
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return allItems.filter((i) => {
-      const matchCat = activeCategory === "all" || i.category === activeCategory;
+      const matchCat =
+        activeCategory === "all" || i.category === activeCategory;
       const text = `${i.question} ${i.answer}`.toLowerCase();
       const matchQuery = q === "" || text.includes(q);
       return matchCat && matchQuery;
@@ -122,7 +123,9 @@ export default function EnhancedFAQ({
     if (found) {
       setOpen((prev) => new Set(prev).add(found.id));
       setTimeout(() => {
-        document.getElementById(found.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document
+          .getElementById(found.id)
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
     }
   }, [allItems]);
@@ -137,13 +140,33 @@ export default function EnhancedFAQ({
   }
 
   return (
-    <motion.section className={`mx-auto max-w-7xl ${className ?? ""}`} aria-labelledby="faq-title" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.45, ease: "easeOut" }}>
+    <motion.section
+      className={`mx-auto max-w-7xl ${className ?? ""}`}
+      aria-labelledby="faq-title"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+    >
       <div className="container mx-auto px-6 py-20">
-        <motion.h1 id="faq-title" className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.6 }} transition={{ duration: 0.4, ease: "easeOut" }}>
+        <motion.h1
+          id="faq-title"
+          className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           {title}
         </motion.h1>
 
-        <motion.div className="mt-6 flex items-center justify-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.6 }} transition={{ delay: 0.1, duration: 0.35 }}>
+        <motion.div
+          className="mt-6 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ delay: 0.1, duration: 0.35 }}
+        >
           <div className="relative w-full max-w-2xl">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
             <motion.input
@@ -159,7 +182,13 @@ export default function EnhancedFAQ({
         </motion.div>
 
         <div className="mt-10 lg:mt-16 lg:flex lg:-mx-12">
-          <motion.aside className="lg:mx-12 lg:w-64" initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.4, ease: "easeOut" }}>
+          <motion.aside
+            className="lg:mx-12 lg:w-64"
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
             <h2 className="text-xl font-semibold text-gray-800">{tocTitle}</h2>
             <nav aria-label="Categorías FAQ" className="mt-4 space-y-2 lg:mt-6">
               <motion.button
@@ -196,16 +225,31 @@ export default function EnhancedFAQ({
 
           <div className="mt-8 flex-1 lg:mx-12 lg:mt-0">
             {visible.length === 0 ? (
-              <motion.p className="text-gray-500" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <motion.p
+                className="text-gray-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
                 No encontramos coincidencias. Probá con otro término.
               </motion.p>
             ) : (
-              <motion.ul className="space-y-4" role="list" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={listVariants}>
+              <motion.ul
+                className="space-y-4"
+                role="list"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={listVariants}
+              >
                 {visible.map((item) => {
                   const isOpen = open.has(item.id);
                   const panelId = `${item.id}-panel`;
                   return (
-                    <motion.li key={item.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm" variants={itemVariants}>
+                    <motion.li
+                      key={item.id}
+                      className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm" //@ts-expect-error bla
+                      variants={itemVariants}
+                    >
                       <motion.button
                         id={item.id}
                         aria-controls={panelId}
@@ -214,8 +258,16 @@ export default function EnhancedFAQ({
                         className="flex w-full items-center justify-between gap-4 text-left focus:outline-none"
                         whileTap={{ scale: 0.98 }}
                       >
-                        <span className="text-lg font-medium text-gray-800">{item.question}</span>
-                        <motion.div animate={{ rotate: isOpen ? 180 : 0, color: isOpen ? "#007BD3" : "#9ca3af" }} transition={{ duration: 0.25 }}>
+                        <span className="text-lg font-medium text-gray-800">
+                          {item.question}
+                        </span>
+                        <motion.div
+                          animate={{
+                            rotate: isOpen ? 180 : 0,
+                            color: isOpen ? "#007BD3" : "#9ca3af",
+                          }}
+                          transition={{ duration: 0.25 }}
+                        >
                           <ChevronDown className="h-5 w-5" />
                         </motion.div>
                       </motion.button>
@@ -232,11 +284,21 @@ export default function EnhancedFAQ({
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                           >
                             <div className="overflow-hidden">
-                              <motion.div className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                              <motion.div
+                                className="mt-3 border-l-2 border-[#007BD3] pl-4 text-gray-600"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                              >
                                 {item.answer}
                               </motion.div>
                               {item.category && (
-                                <motion.div className="mt-3 text-xs text-gray-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.3 }}>
+                                <motion.div
+                                  className="mt-3 text-xs text-gray-400"
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  transition={{ delay: 0.15, duration: 0.3 }}
+                                >
                                   Categoría: {item.category}
                                 </motion.div>
                               )}
