@@ -30,7 +30,7 @@ export default function Hero() {
         animate={{ opacity: 1, scale: [0.9, 1, 0.95, 1] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div style={{ y: baseY }} className="w-full mx-auto">
+      <motion.div style={{ y: baseY }} className=" mx-auto">
         <Image src="/hero1.png" alt="Grow ERP" width={1000} height={1000} />
       </motion.div>
       <motion.div
