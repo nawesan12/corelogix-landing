@@ -8,7 +8,7 @@ import { formatBlogDate, getAllPosts } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Blog | Grow ERP",
   description:
-    "Stories, product updates, and playbooks to help revenue, operations, and finance teams grow with confidence.",
+    "Historias, actualizaciones de producto y guías para ayudar a los equipos de ingresos, operaciones y finanzas a crecer con confianza.",
 };
 
 export default async function BlogPage() {
@@ -22,20 +22,21 @@ export default async function BlogPage() {
             Blog
           </span>
           <h1 className="mt-6 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-            Insights, updates, and playbooks from the Grow ERP team
+            Ideas, actualizaciones y guías del equipo de Grow ERP
           </h1>
           <p className="mt-4 text-lg leading-8 text-muted-foreground">
-            Explore how modern operators scale their revenue engine, streamline operations, and deliver better customer
-            experiences with Grow ERP.
+            Descubre cómo los operadores modernos escalan sus motores de ingresos, optimizan operaciones y ofrecen mejores
+            experiencias a sus clientes con Grow ERP.
           </p>
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {posts.length === 0 ? (
             <div className="col-span-full rounded-3xl border border-dashed border-border/60 bg-card/40 p-12 text-center">
-              <h2 className="text-2xl font-semibold text-foreground">We are preparing our first stories</h2>
+              <h2 className="text-2xl font-semibold text-foreground">Estamos preparando nuestras primeras historias</h2>
               <p className="mt-3 text-base leading-7 text-muted-foreground">
-                Subscribe to the newsletter and be the first to know when we publish new playbooks and product updates.
+                Suscríbete al boletín y sé el primero en enterarte cuando publiquemos nuevas guías y actualizaciones de
+                producto.
               </p>
             </div>
           ) : null}
@@ -87,7 +88,7 @@ export default async function BlogPage() {
                   ) : null}
 
                   <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                    Read story
+                    Leer artículo
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>

@@ -30,8 +30,8 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Post not found | Grow ERP",
-      description: "The blog post you are looking for could not be found.",
+      title: "Publicación no encontrada | Grow ERP",
+      description: "La entrada de blog que buscas no se pudo encontrar.",
     };
   }
 
@@ -83,7 +83,7 @@ function ArticleContent({ post }: { post: BlogPost }) {
           className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to blog
+          Volver al blog
         </Link>
 
         <header className="mt-10 space-y-6">
