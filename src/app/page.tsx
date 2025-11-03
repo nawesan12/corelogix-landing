@@ -2,9 +2,14 @@ import CTA from "@/components/CTA";
 import FAQ, { FAQItem } from "@/components/FAQ";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
+import ImplementationJourney from "@/components/ImplementationJourney";
+import IntegrationShowcase from "@/components/IntegrationShowcase";
 import Newsletter from "@/components/Newsletter";
 import Pricing, { PricingPlan } from "@/components/Pricing";
+import ResourceHighlights from "@/components/ResourceHighlights";
 import Stats from "@/components/Stats";
+import Testimonials from "@/components/Testimonials";
+import TrustedBy from "@/components/TrustedBy";
 import ValueProps from "@/components/ValueProps";
 
 const pricingPlans: PricingPlan[] = [
@@ -109,11 +114,16 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <TrustedBy />
       <Stats />
       <ValueProps />
       <Features />
+      <ImplementationJourney />
+      <IntegrationShowcase />
+      <Testimonials />
       <CTA />
       <Pricing plans={pricingPlans} />
+      <ResourceHighlights />
       <FAQ
         title="Preguntas frecuentes"
         tocTitle="Categorías"
