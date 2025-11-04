@@ -31,11 +31,17 @@ export default function Hero() {
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div style={{ y: baseY }} className=" mx-auto">
-        <Image src="/hero1.png" alt="Grow ERP" width={1000} height={1000} />
+        <Image
+          src="/hero1.png"
+          alt="Grow ERP"
+          width={1000}
+          height={1000}
+          className=" md:scale-100 scale-150 relative top-24 md:top-0 -scale-z-50 overflow-hidden"
+        />
       </motion.div>
       <motion.div
         style={{ y: overlayY, scale: overlayScale }}
-        className="relative -top-80 drop-shadow-2xl"
+        className="relative hidden md:flex md:-top-80 drop-shadow-2xl"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}

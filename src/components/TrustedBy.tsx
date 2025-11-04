@@ -17,7 +17,7 @@ export default function TrustedBy() {
 
   return (
     <motion.section
-      className="mx-auto max-w-7xl px-6 pb-12 pt-10"
+      className="mx-auto max-w-7xl px-6 pb-12 pt-10 relative z-20"
       aria-labelledby="trusted-by-title"
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -42,7 +42,8 @@ export default function TrustedBy() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.15 }}
         >
-          Más de 300 organizaciones usan Grow ERP para coordinar finanzas y operaciones
+          Más de 300 organizaciones usan Grow ERP para coordinar finanzas y
+          operaciones
         </motion.h2>
       </div>
 
@@ -62,7 +63,10 @@ export default function TrustedBy() {
         {items.map((logo) => (
           <motion.div
             key={logo.name}
-            variants={{ hidden: { y: 12, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
+            variants={{
+              hidden: { y: 12, opacity: 0 },
+              visible: { y: 0, opacity: 1 },
+            }}
             className="group relative flex h-24 flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white/80 p-4 shadow-sm backdrop-blur"
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 220, damping: 16 }}
@@ -70,7 +74,9 @@ export default function TrustedBy() {
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E6F3FC] text-base font-semibold text-[#007BD3]">
               {logo.initials}
             </span>
-            <span className="mt-3 text-sm font-semibold text-gray-800">{logo.name}</span>
+            <span className="mt-3 text-sm font-semibold text-gray-800">
+              {logo.name}
+            </span>
             <span className="text-xs text-gray-500">{logo.industry}</span>
             <motion.span
               aria-hidden
